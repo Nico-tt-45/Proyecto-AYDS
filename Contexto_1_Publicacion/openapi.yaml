@@ -1,0 +1,76 @@
+openapi: 3.0.4
+info:
+  title: API de Publicación y Distribución - YouTube Bounded Context 1
+  version: 1.0.0
+  description: >
+    Responsabilidad: Gestionar el ciclo de vida técnico del video (subida, procesamiento, 
+    almacenamiento y reproducción). No gestiona metadatos editoriales ni visibilidad pública.
+servers:
+  - url: https://api.yt-clone.com/v1/publishing
+paths:
+  /uploads:
+    post:
+      summary: Iniciar subida de video
+      description: Permite a un creador registrar la intención de subir un nuevo archivo de video.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadRequest'
+      responses:
+        '201':
+          description: Subida iniciada, retorna la URL prefirmada para el archivo.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+
+  /assets/{assetId}/process:
+    post:
+      summary: Iniciar procesamiento técnico
+      description: Gatilla la transcodificación a múltiples calidades (360p, 720p, 1080p) una vez subido el archivo.
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Procesamiento encolado correctamente.
+
+  /assets/{assetId}/playback:
+    get:
+      summary: Obtener datos de reproducción
+      description: Retorna la URL del stream adaptativo (HLS/DASH) para el reproductor.
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Información técnica para iniciar el streaming.
+
+components:
+  schemas:
+    UploadRequest:
+      type: object
+      required: [fileName, fileSize]
+      properties:
+        fileName:
+          type: string
+        fileSize:
+          type: integer
+          description: Tamaño en bytes para validar límite.
+          
+    UploadResponse:
+      type: object
+      properties:
+        assetId:
+          type: string
+        uploadUrl:
+          type: string
+          description: URL donde el cliente debe hacer el PUT del archivo binario.
