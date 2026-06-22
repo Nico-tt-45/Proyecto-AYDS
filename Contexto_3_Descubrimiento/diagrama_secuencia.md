@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     actor Usuario
     participant API_Descubrimiento as API Descubrimiento (Contexto 3)
@@ -22,3 +23,4 @@ sequenceDiagram
 
     API_Descubrimiento-->>Usuario: 200 OK (Lista de videos recomendados filtrada)
     deactivate API_Descubrimiento
+```
