@@ -1,0 +1,107 @@
+openapi: 3.0.4
+info:
+  title: API de Audiencia y Engagement - YouTube Bounded Context 4
+  version: 1.0.0
+  description: >
+    Responsabilidad: Gestionar la relación social entre usuarios, creadores y contenido. 
+    Maneja suscripciones, likes, comentarios e historial de visualización. No procesa video 
+    ni gestiona metadatos editoriales.
+servers:
+  - url: https://api.yt-clone.com/v1/audience
+paths:
+  /channels/{channelId}/subscriptions:
+    post:
+      summary: Seguir un canal
+      description: Permite al usuario autenticado suscribirse a un canal.
+      parameters:
+        - name: channelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Suscripción creada exitosamente.
+        '409':
+          description: El usuario ya está suscrito a este canal.
+    delete:
+      summary: Dejar de seguir un canal
+      parameters:
+        - name: channelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Suscripción eliminada.
+
+  /contents/{contentId}/reactions:
+    put:
+      summary: Registrar o actualizar reacción
+      description: Permite dar like, dislike o quitar la reacción de un contenido.
+      parameters:
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReactionInput'
+      responses:
+        '200':
+          description: Reacción registrada/actualizada.
+          
+  /contents/{contentId}/comments:
+    post:
+      summary: Publicar un comentario
+      parameters:
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInput'
+      responses:
+        '201':
+          description: Comentario creado.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  security:
+    - bearerAuth: []
+  schemas:
+    ReactionInput:
+      type: object
+      required:
+        - reactionType
+      properties:
+        reactionType:
+          type: string
+          enum: [LIKE, DISLIKE, NONE]
+          description: NONE se usa para remover una reacción previa.
+          
+    CommentInput:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          maxLength: 2000
+        parentCommentId:
+          type: string
+          description: Opcional. Si se envía, este comentario es una respuesta en un hilo.
