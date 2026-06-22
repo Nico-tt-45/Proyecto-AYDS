@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class VideoAsset {
         <<Aggregate Root>>
@@ -36,3 +37,4 @@ classDiagram
     VideoAsset "1" *-- "1..*" ProcessingJob : has
     VideoAsset "1" *-- "0..*" VideoFormat : generates
     VideoAsset ..> AssetStatus : uses
+```
