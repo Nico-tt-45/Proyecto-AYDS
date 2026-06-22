@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class CatalogItem {
         <<Aggregate Root>>
@@ -35,3 +36,4 @@ classDiagram
     CatalogItem "1" *-- "1" EditorialMetadata : contains
     CatalogItem "1" *-- "1" VisibilityPolicy : enforces
     CatalogItem ..> ItemStatus : uses
+```
