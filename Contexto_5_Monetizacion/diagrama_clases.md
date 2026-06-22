@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class MonetizationProfile {
         <<Aggregate Root>>
@@ -38,3 +39,4 @@ classDiagram
     MonetizationProfile ..> Money : uses
     EarningEvent ..> Money : uses
     Payout ..> Money : uses
+```
