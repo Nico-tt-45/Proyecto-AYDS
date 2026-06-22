@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     actor Creador
     participant API_Publicacion as API Publicación (Contexto 1)
@@ -24,3 +25,4 @@ sequenceDiagram
     API_Publicacion->>EventBus: Emitir "AssetReadyForPublication" (assetId, creatorId)
     EventBus-->>API_Catalogo: Consumir evento
     API_Catalogo->>API_Catalogo: Habilitar asset para vinculación editorial
+```
