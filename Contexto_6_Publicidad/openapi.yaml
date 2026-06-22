@@ -1,0 +1,71 @@
+openapi: 3.0.4
+info:
+  title: API de Publicidad y Marketplace de Anunciantes - YouTube Contexto 6
+  version: 1.0.0
+  description: >
+    Responsabilidad: Gestionar el negocio publicitario B2B. Controla cuentas de anunciantes, 
+    campañas, presupuestos, criterios de targeting y medición de impresiones/clicks.
+servers:
+  - url: https://api.yt-clone.com/v1/ads
+paths:
+  /campaigns:
+    post:
+      summary: Crear una campaña publicitaria
+      description: Permite a un anunciante registrar una nueva campaña con presupuesto y vigencia.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignInput'
+      responses:
+        '201':
+          description: Campaña creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignResponse'
+
+  /campaigns/{campaignId}/metrics:
+    get:
+      summary: Obtener reporte de rendimiento
+      description: Retorna las métricas de la campaña como impresiones, clicks, CTR y gasto acumulado.
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Métricas obtenidas correctamente.
+
+components:
+  schemas:
+    CampaignInput:
+      type: object
+      required: [name, totalBudget, targeting]
+      properties:
+        name:
+          type: string
+        totalBudget:
+          type: number
+          format: float
+        targeting:
+          type: object
+          properties:
+            countries:
+              type: array
+              items:
+                type: string
+            ageMin:
+              type: integer
+
+    CampaignResponse:
+      type: object
+      properties:
+        campaignId:
+          type: string
+        status:
+          type: string
+          example: "PENDING_REVIEW"
