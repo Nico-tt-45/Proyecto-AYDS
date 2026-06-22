@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class RecommendationEngine {
         <<Domain Service>>
@@ -30,3 +31,4 @@ classDiagram
     UserInterestProfile "1" *-- "0..*" SearchSignal : tracks
     RecommendationEngine ..> UserInterestProfile : analyzes
     RecommendationEngine ..> DiscoveryItem : Ranks
+```
