@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     actor Usuario
     participant API_Audiencia as API Audiencia (Contexto 4)
@@ -22,3 +23,4 @@ sequenceDiagram
     activate API_Descubrimiento
     API_Descubrimiento->>API_Descubrimiento: Actualizar señales de ranking para el usuario
     deactivate API_Descubrimiento
+```
