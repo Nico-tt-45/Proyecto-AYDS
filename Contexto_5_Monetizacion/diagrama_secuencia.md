@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant API_Publicidad as API Publicidad (Contexto 6)
     participant EventBus as Message Broker (Eventos)
@@ -21,3 +22,4 @@ sequenceDiagram
     API_Monetizacion->>DB_Monetizacion: Crear entidad Payout en estado PENDING
     API_Monetizacion-->>Creador: 202 Accepted (Pago en proceso)
     deactivate API_Monetizacion
+```
