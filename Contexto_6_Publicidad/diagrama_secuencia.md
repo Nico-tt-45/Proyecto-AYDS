@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     actor Viewer as Espectador
     participant API_Publicidad as API Publicidad (Contexto 6)
@@ -27,3 +28,4 @@ sequenceDiagram
     API_Publicidad->>EventBus: Emitir "AdRevenueGenerated" (videoAssetId, monto, creatorId)
     API_Publicidad-->>Viewer: OK
     deactivate API_Publicidad
+```
