@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class AdCampaign {
         <<Aggregate Root>>
@@ -36,3 +37,4 @@ classDiagram
     AdCampaign "1" *-- "1..*" AdCreative : contains
     AdCampaign "1" *-- "1" TargetingCriteria : filtersWith
     AdCampaign ..> Money : uses
+```
