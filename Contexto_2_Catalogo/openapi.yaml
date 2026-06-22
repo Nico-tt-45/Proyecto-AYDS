@@ -1,0 +1,59 @@
+openapi: 3.0.4
+info:
+  title: API de Catálogo Editorial y Derechos - YouTube Contexto 2
+  version: 1.0.0
+  description: >
+    Responsabilidad: Definir qué contenido existe públicamente, cómo se presenta (metadatos editoriales) 
+    y bajo qué reglas puede mostrarse (políticas, edad, territorio). No gestiona transcodificación.
+servers:
+  - url: https://api.yt-clone.com/v1/catalog
+paths:
+  /items/{catalogItemId}:
+    patch:
+      summary: Editar metadata de un contenido
+      description: Permite al creador actualizar título, descripción o tags de un borrador o video publicado.
+      parameters:
+        - name: catalogItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetadataUpdate'
+      responses:
+        '200':
+          description: Metadata actualizada correctamente.
+          
+  /items/{catalogItemId}/publish:
+    post:
+      summary: Publicar un contenido
+      description: Hace que un ítem de catálogo pase a estar visible públicamente según sus reglas.
+      parameters:
+        - name: catalogItemId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Contenido publicado exitosamente.
+
+components:
+  schemas:
+    MetadataUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 5000
+        tags:
+          type: array
+          items:
+            type: string
