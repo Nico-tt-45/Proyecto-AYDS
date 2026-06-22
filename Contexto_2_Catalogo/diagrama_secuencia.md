@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     actor Creador
     participant API_Catalogo as API Catálogo (Contexto 2)
@@ -22,3 +23,4 @@ sequenceDiagram
     activate API_Descubrimiento
     API_Descubrimiento->>API_Descubrimiento: Indexar contenido para el buscador y feeds
     deactivate API_Descubrimiento
+```
