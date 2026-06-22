@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     class Viewer {
         <<Aggregate Root>>
@@ -39,3 +40,4 @@ classDiagram
     Viewer "1" *-- "0..*" Subscription : has
     ContentInteraction "1" *-- "0..*" Comment : contains
     ContentInteraction ..> ReactionType : uses
+```
