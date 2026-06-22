@@ -1,0 +1,72 @@
+openapi: 3.0.4
+info:
+  title: API de Descubrimiento y Personalización - YouTube Contexto 3
+  version: 1.0.0
+  description: >
+    Responsabilidad: Proveer mecanismos de búsqueda, generación de feeds personalizados 
+    y recomendaciones basadas en señales de interés. No almacena videos ni metadata editorial original.
+servers:
+  - url: https://api.yt-clone.com/v1/discovery
+paths:
+  /search:
+    get:
+      summary: Buscar contenido o canales
+      description: Permite buscar videos y canales por texto libre con filtros opcionales.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [VIDEO, CHANNEL]
+      responses:
+        '200':
+          description: Resultados de búsqueda ordenados por relevancia.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResultList'
+
+  /feeds/home:
+    get:
+      summary: Obtener feed de inicio personalizado
+      description: Retorna una lista paginada de videos recomendados para el usuario autenticado.
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: nextToken
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Feed generado exitosamente.
+
+components:
+  schemas:
+    SearchResultList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchItemItem'
+    SearchItemItem:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        titleSnippet:
+          type: string
