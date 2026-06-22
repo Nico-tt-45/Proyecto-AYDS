@@ -1,0 +1,58 @@
+openapi: 3.0.4
+info:
+  title: API de Monetización del Creador - YouTube Contexto 5
+  version: 1.0.0
+  description: >
+    Responsabilidad: Gestionar la elegibilidad de los creadores, calcular ingresos por revenue share 
+    y administrar el saldo y pagos (payouts). No interactúa directamente con los anunciantes.
+servers:
+  - url: https://api.yt-clone.com/v1/monetization
+paths:
+  /creators/{creatorId}/earnings:
+    get:
+      summary: Consultar ganancias acumuladas
+      description: Retorna el saldo actual disponible y el desglose de ingresos del creador.
+      parameters:
+        - name: creatorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Saldo y ganancias consultadas exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsReport'
+
+  /creators/{creatorId}/payouts:
+    post:
+      summary: Solicitar retiro de fondos
+      description: Inicia una transferencia del saldo disponible a la cuenta bancaria del creador.
+      parameters:
+        - name: creatorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Solicitud de pago en proceso.
+        '400':
+          description: Saldo insuficiente o cuenta no elegible.
+
+components:
+  schemas:
+    EarningsReport:
+      type: object
+      properties:
+        availableBalance:
+          type: number
+          format: float
+        currency:
+          type: string
+          example: "USD"
+        lastUpdated:
+          type: string
+          format: date-time
